@@ -11,8 +11,8 @@ export const TaskModel = sequelize.define('Task', {
         type: DataTypes.STRING(100),
         allowNull: false,
     },
-    isCompleted: {
-        type: DataTypes.BOLEAN,
-        allowNull: false,
+    isComplete: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
     }
 })
