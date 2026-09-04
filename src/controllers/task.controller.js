@@ -1,5 +1,5 @@
 import { TaskModel } from "../models/task.model.js";
-import { json, Op, where } from "sequelize";
+import { Op } from "sequelize";
 
 export const createTask = async (req, res) => {
   try {
