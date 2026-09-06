@@ -15,4 +15,4 @@ app.listen(PORT, async () => {
     console.log(`Servidor conectado en el puerto ${PORT}`);
     await startDB();
     console.log("Conectado a la base de datos");
-})
+});
