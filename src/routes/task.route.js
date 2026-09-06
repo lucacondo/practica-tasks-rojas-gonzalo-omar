@@ -3,8 +3,6 @@ import { getAllTasks, getTaskById, createTask, updateTask, deleteTask } from "..
 
 export const taskRouter = Router();
 
-validacion_midleware()
-
 taskRouter.get("/tasks", getAllTasks);
 taskRouter.get("/tasks/:id", getTaskById);
 taskRouter.post("/tasks", createTask);

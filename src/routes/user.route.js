@@ -3,8 +3,8 @@ import { getAllUsers, getUserById, createUser, updateUser, deleteUser } from "..
 
 export const userRouter = Router();
 
-taskRouter.get("/users", getAllUsers);
-taskRouter.get("/users/:id", getUserById);
-taskRouter.post("/users", createUser);
-taskRouter.put("/users/:id", updateUser);
-taskRouter.delete("/users/:id", deleteUser);
+userRouter.get("/users", getAllUsers);
+userRouter.get("/users/:id", getUserById);
+userRouter.post("/users", createUser);
+userRouter.put("/users/:id", updateUser);
+userRouter.delete("/users/:id", deleteUser);
