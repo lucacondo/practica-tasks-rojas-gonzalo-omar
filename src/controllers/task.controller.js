@@ -17,15 +17,15 @@ export const createTask = async (req, res) => {
       return res.status(400).json({ message: "Los datos deben ser de tipo texto"})
     };
 
-    if(title.length < 100 || description.length < 100){
-      return res.status(400).json({ message: "No debe ser más de 100 caracteres"})
+    if(title.length > 100 || description.length > 100){
+      return res.status(400).json({ message: "La descripción o título no debe ser más de 100 caracteres"})
     };
 
     if(isComplete == undefined && typeof isComplete !== "boolean"){
       return res.status(400).json({ message: "Este campo debe ser válido y booleano"})
     };
 
-    const existTask = await TaskModel.findOne({ where : { title, id: { [ Op.ne] : id } }});
+    const existTask = await TaskModel.findOne({ where : { title } });
 
     if(existTask){
       return res.status(400).json({ message: "Ya existe un título con este nombre"})
@@ -92,8 +92,8 @@ export const updateTask = async (req, res) => {
       return res.status(400).json({ message: "Los datos deben ser de tipo texto"})
     };
 
-    if(title.length < 100 || description.length < 100){
-      return res.status(400).json({ message: "No debe ser más de 100 caracteres"})
+    if(title.length > 100 || description.length > 100){
+      return res.status(400).json({ message: "La descripción o título no debe ser más de 100 caracteres"})
     };
 
     if(isComplete == undefined && typeof isComplete !== "boolean"){
