@@ -14,5 +14,13 @@ export const UserModel = sequelize.define('User', {
     password: {
         type: DataTypes.STRING(100),
         allowNull: false,
-    }
-})
+    },
+/*     person_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: "People",
+            key: "id",
+        },
+    }, */
+});

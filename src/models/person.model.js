@@ -1,26 +1,22 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/database.js';
 
-export const TaskModel = sequelize.define('Task', {
-    title: {
-        type: DataTypes.STRING(100),
-        unique: true,
-        allowNull: false,
-    },
-    description: {
+export const PersonModel = sequelize.define('People', {
+    name: {
         type: DataTypes.STRING(100),
         allowNull: false,
     },
-    isComplete: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+    lastname: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
     },
-/*     user_id: {
+    person_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        unique: true,
         references: {
-            model: "Users",
-            key: "id"
+            model: "People",
+            key: "id",
         },
-    }, */
+    },
 });
