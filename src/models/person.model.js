@@ -10,13 +10,4 @@ export const PersonModel = sequelize.define('People', {
         type: DataTypes.STRING(100),
         allowNull: false,
     },
-    person_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        unique: true,
-        references: {
-            model: "People",
-            key: "id",
-        },
-    },
 });

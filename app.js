@@ -4,6 +4,8 @@ import { userRouter } from "./src/routes/user.route.js";
 import { taskRouter } from "./src/routes/task.route.js";
 import 'dotenv/config';
 import './src/models/relaciones.js';
+import { personRouter } from "./src/routes/person.route.js";
+import { roleRouter } from "./src/routes/role.route.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,6 +13,8 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use("/api", taskRouter);
 app.use("/api", userRouter);
+app.use("/api", personRouter);
+app.use("/api", roleRouter);
 
 app.listen(PORT, async () => {
     console.log(`Servidor conectado en el puerto ${PORT}`);

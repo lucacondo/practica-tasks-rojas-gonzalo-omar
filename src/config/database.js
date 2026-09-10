@@ -9,7 +9,7 @@ export const startDB = async () => {
     try {
     await sequelize.authenticate();
 
-    await sequelize.sync({force: true});
+    await sequelize.sync();
     console.log('La base de datos se ha iniciado correctamente.');
     } catch (error) {
         console.error('Error al iniciar la base de datos:', error);

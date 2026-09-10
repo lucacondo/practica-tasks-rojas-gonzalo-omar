@@ -10,9 +10,9 @@ PersonModel.hasOne(UserModel, {foreignKey: "person_id", as: "owner"});
 UserModel.belongsTo(PersonModel, { foreignKey: "person_id", as: "person"});
 
 // relación entre usuario y su tarea:
-UserModel.hasMany(TaskModel, { foreignKey: "user_id", as: "user" });
+UserModel.hasMany(TaskModel, { foreignKey: "user_id", as: "tasks" });
 
-TaskModel.belongsTo(UserModel, { foreignKey: "user_id", as: "tasks"});
+TaskModel.belongsTo(UserModel, { foreignKey: "user_id", as: "user"});
 
 // relación entre usuario y rol:
 UserModel.belongsToMany(RoleModel, {

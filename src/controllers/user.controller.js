@@ -1,26 +1,30 @@
+import { RoleModel } from "../models/role.model.js";
+import { TaskModel } from "../models/task.model.js";
 import { UserModel } from "../models/user.model.js";
 import { Op } from "sequelize";
 
 export const createUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, person_id } = req.body;
 
     //Validación de un dato nulo
-    if(!name || !email || !password) {
+    if(!name || !email || !password || !person_id ) {
       return res.status(400).json({ message: "Todos los campos son requeridos" })
     }
 
     //Validación de tipo de dato
     if(typeof name !== "string" 
       || typeof email !== "string" 
-      || typeof password !== "string") {
+      || typeof password !== "string"
+      || typeof person_id !== "number") {
       return res.status(400).json({ message: "Todos los campos deben ser de tipo string" });
     }
 
     //Valicación de un dato vacio
     if(name.trim() === "" 
     || email.trim() === "" 
-    || password.trim() === "") {
+    || password.trim() === ""
+    || person_id.toString().trim() === "") {
       return res.status(400).json({ message: "Ningún campo puede estar vacío" });
     }
 
@@ -44,7 +48,7 @@ export const createUser = async (req, res) => {
     }
 
     //Creación del usario en la base de datos
-    const user = await UserModel.create( {name, email, password} );
+    await UserModel.create( {name, email, password, person_id} );
 
     return res.status(201).json({ message: "Usuario creado exitosamente" });
 
@@ -53,11 +57,25 @@ export const createUser = async (req, res) => {
     return res.status(500).json({ message: "error interno en el servidor" });
   }};
 
+
+
   export const getAllUsers = async (req, res) => {
   try {
 
-    //Obtención de todos los usuarios en la base de datos
-    const users = await UserModel.findAll();
+    const users = await UserModel.findAll({
+      include: [{
+        model: TaskModel,
+        as: "tasks",
+        attributes: ["id", "title", "description", "isComplete"]
+      },
+      {
+        model: RoleModel,
+        as: "roles",
+        attributes: ["id", "role_name"],
+        through: { attributes: [] } 
+      }],
+      attributes: { exclude: ["password"] },
+    });
 
     return res.status(200).json({ message: "Usuarios obtenidos exitosamente", data: users });
 
@@ -66,16 +84,22 @@ export const createUser = async (req, res) => {
     return res.status(500).json({ message: "error interno en el servidor" });
   }};
 
+
+
   export const getUserById = async (req, res) => {
   try {
 
-    //Obtención de un usuario por su id
     const { id } = req.params;
 
-    //Se busca en la base de datos el id y es guardado en una constante
-    const user = await UserModel.findByPk(id);
+    const user = await UserModel.findByPk(id, {
+      include: [{
+        model: TaskModel,
+        as: "tasks",
+        attributes: ["id", "title", "description", "isComplete"]
+      }],
+      attributes: { exclude: ["password"] },
+    });
 
-    //Se detecta si no se encuentra el id
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
@@ -86,6 +110,8 @@ export const createUser = async (req, res) => {
     console.error(error);
     return res.status(500).json({ message: "error interno en el servidor" });
   }};
+
+
 
   export const updateUser = async (req, res) => {
   try {
@@ -98,24 +124,26 @@ export const createUser = async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, person_id } = req.body;
 
     //Validación de un dato nulo
-    if(!name || !email || !password) {
+    if(!name || !email || !password || !person_id) {
       return res.status(400).json({ message: "Todos los campos son requeridos" })
     }
 
     //Validación de tipo de dato
     if(typeof name !== "string" 
       || typeof email !== "string" 
-      || typeof password !== "string") {
+      || typeof password !== "string"
+      || typeof person_id !== "number") {
       return res.status(400).json({ message: "Todos los campos deben ser de tipo string" });
     }
 
     //Valicación de un dato vacio
     if(name.trim() === "" 
     || email.trim() === "" 
-    || password.trim() === "") {
+    || password.trim() === ""
+    || person_id.toString().trim() === "") {
       return res.status(400).json({ message: "Ningún campo puede estar vacío" });
     }
 
@@ -139,7 +167,7 @@ export const createUser = async (req, res) => {
     }
 
     //Actualización del usuario en la base de datos
-    await UserModel.update({ name, email, password }, { where: { id } });
+    await UserModel.update({ name, email, password, person_id }, { where: { id } });
 
     return res.status(200).json({ message: "Usuario actualizado exitosamente" });
 
@@ -147,6 +175,8 @@ export const createUser = async (req, res) => {
     console.error(error);
     return res.status(500).json({ message: "error interno en el servidor" });
   }};
+
+
 
   export const deleteUser = async (req, res) => {
   try {
