@@ -14,5 +14,5 @@ export const startDB = async () => {
     } catch (error) {
         console.error('Error al iniciar la base de datos:', error);
     }
-};
+}; 
 
